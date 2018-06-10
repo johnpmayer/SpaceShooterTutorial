@@ -4,6 +4,22 @@ public class DestroyByContact : MonoBehaviour {
 
     public GameObject explosion;
     public GameObject playerExplosion;
+    public int scoreValue;
+
+    private GameController gameController;
+
+    private void Start()
+    {
+        GameObject mainController = GameObject.FindWithTag("GameController"); // first in the scene with this tag
+        if (mainController != null)
+        {
+            gameController = mainController.GetComponent<GameController>();
+        }
+        if (gameController != null)
+        {
+            Debug.Log("Cannot find GameController script");
+        }
+    }
 
     // called when a collider (other) first touches this collider
     private void OnTriggerEnter(Collider other)
@@ -18,6 +34,10 @@ public class DestroyByContact : MonoBehaviour {
         if (other.tag == "Player")
         {
             Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
+        }
+        else
+        {
+            gameController.AddScore(scoreValue);
         }
         
         // order in the following two statements doesn't matter, they just
