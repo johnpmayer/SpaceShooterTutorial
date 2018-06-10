@@ -20,11 +20,13 @@ public class PlayerController : MonoBehaviour
     // encapsulated state
 
     private Rigidbody rb;
+    private AudioSource audioSource;
     private float nextShot; // initial value zero works fine
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -33,6 +35,7 @@ public class PlayerController : MonoBehaviour
         {
             nextShot = Time.time + shotRate;
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+            audioSource.Play();
         }
     }
 
