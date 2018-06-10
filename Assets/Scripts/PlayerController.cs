@@ -13,16 +13,29 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float tilt;
     public Boundary boundary;
+    public GameObject shot;
+    public Transform shotSpawn;
+    public float shotRate;
 
     // encapsulated state
 
     private Rigidbody rb;
+    private float nextShot; // initial value zero works fine
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetButton("Fire1") && Time.time > nextShot)
+        {
+            nextShot = Time.time + shotRate;
+            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+        }
+    }
+
     // unity will execute this once per physics step
     private void FixedUpdate()
     {
@@ -39,5 +52,5 @@ public class PlayerController : MonoBehaviour
         );
 
         rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
-    }
+    }    
 }
